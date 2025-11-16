@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지속가능 소비 홈페이지</title>
+
+<style>
+/* MUJI 스타일 */
+body {
+    margin: 0;
+    font-family: "Noto Sans KR", sans-serif;
+    background-color: #F5F5F5;
+    color: #3E3E3E;
+}
+
+/* 상단 네비 */
+.navbar {
+    background-color: #0F254A;
+    padding: 18px 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar button {
+    background: #0F254A;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.navbar button:hover {
+    background-color: white;
+    color: #0F254A;
+}
+
+/* 섹션 공통 카드 */
+section {
+    display: none;
+    max-width: 900px;
+    margin: 50px auto;
+}
+.card {
+    background: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* 홈 */
+#home {
+    display: block;
+    text-align: center;
+}
+
+/* 지도 */
+.map-large {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+    border: 2px solid #0F254A;
+}
+.map-btns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+.map-btns button {
+    background-color: #0F254A;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.map-btns button:hover {
+    background-color: #1b3a6c;
+}
+
+/* 지도 확대 영역 */
+#map-detail {
+    display: none;
+    margin-top: 25px;
+    padding: 15px;
+    border: 2px solid #0F254A;
+    border-radius: 12px;
+    background: #FAFAFA;
+}
+#map-detail img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #0F254A;
+}
+#map-detail .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+#map-detail .price-table th, #map-detail .price-table td {
+    border: 1px solid #aaa;
+    padding: 8px;
+    text-align: center;
+}
+
+/* 설문/서명 */
+textarea, input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    resize: vertical;
+    font-size: 16px;
+}
+.submit-btn {
+    margin-top: 15px;
+    width: 100%;
+    background-color: #0F254A;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+}
+.submit-btn:hover {
+    background-color: #1b3a6c;
+}
+
+/* 자료실 강조 */
+.resources ul {
+    list-style: none;
+    padding-left: 0;
+}
+.resources li {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+.resources a {
+    text-decoration: none;
+    color: #0F254A;
+    font-weight: 500;
+}
+.resources a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<!-- 네비 -->
+<div class="navbar">
+    <button onclick="openTab('home')">홈</button>
+    <button onclick="openTab('map')">지도</button>
+    <button onclick="openTab('survey')">업체 추천 설문</button>
+    <button onclick="openTab('petition')">온라인 서명</button>
+    <button onclick="openTab('resources')">자료실</button>
+</div>
+
+<!-- 홈 -->
+<section id="home">
+    <div class="card">
+        <h1>지속가능 소비 홈페이지</h1>
+        <p>이 홈페이지는 충남대학교 주변에서 책임 있는 소비 환경을 만들기 위해 제작되었습니다.<br>
+        상거래상 소비윤리를 기반으로, 투명한 정보 제공과 지속가능한 선택을 돕습니다.</p>
+    </div>
+</section>
+
+<!-- 지도 -->
+<section id="map">
+    <div class="card">
+        <h2>충남대 주변 지속가능 소비 지도</h2>
+        <p>충남대 정문·서문·쪽문 기준 도보 10분 내 헬스장 가격 정보를 제공합니다.</p>
+
+        <img src="map_total.png" class="map-large" alt="전체 지도">
+
+        <div class="map-btns">
+            <button onclick="showDetail('bongmyeong')">봉명동 확대</button>
+            <button onclick="showDetail('jukdong')">죽동 확대</button>
+            <button onclick="showDetail('gungdong')">궁동 확대</button>
+        </div>
+
+        <div id="map-detail">
+            <img id="detail-img" src="" alt="지도 확대">
+            <table class="price-table" id="price-table">
+                <!-- 가격표 내용 JS에서 채움 -->
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- 설문 -->
+<section id="survey">
+    <div class="card">
+        <h2>업체 유형 추천 설문</h2>
+        <p>추가되었으면 하는 업체 유형을 알려주세요.</p>
+        <textarea placeholder="예: 로컬푸드 마켓, 친환경 카페, 제로웨이스트샵 등"></textarea>
+        <button class="submit-btn" onclick="window.open('https://forms.gle/XXXXXXX', '_blank')">설문 제출하기</button>
+    </div>
+</section>
+
+<!-- 서명 -->
+<section id="petition">
+    <div class="card">
+        <h2>불공정 약관 개선 온라인 서명</h2>
+        <p>소비자의 권리를 보호하고 공정한 시장을 위해 함께해주세요.</p>
+        <button class="submit-btn" onclick="window.open('https://forms.gle/XXXXXXX', '_blank')">구글폼에서 서명하기 →</button>
+    </div>
+</section>
+
+<!-- 자료실 -->
+<section id="resources">
+    <div class="card resources">
+        <h2>📚 자료실</h2>
+        <p>환경과 소비에 대한 더 깊은 자료를 살펴보세요.</p>
+        <ul>
+            <li><a href="https://www.me.go.kr" target="_blank">환경부 공식 사이트</a></li>
+            <li><a href="https://www.wwf.or.kr" target="_blank">WWF Korea</a></li>
+            <li><a href="https://www.kca.go.kr" target="_blank">한국소비자원</a></li>
+        </ul>
+    </div>
+</section>
+
+<script>
+function openTab(tab) {
+    document.querySelectorAll("section").forEach(s => s.style.display="none");
+    document.getElementById(tab).style.display="block";
+}
+
+const mapData = {
+    bongmyeong: {
+        img: "bongmyeong.png",
+        prices: [
+            ["헬스장", "1개월", "3개월", "6개월"],
+            ["헬스A", "50,000원", "140,000원", "270,000원"],
+            ["헬스B", "45,000원", "130,000원", "250,000원"]
+        ]
+    },
+    jukdong: {
+        img: "jukdong.png",
+        prices: [
+            ["헬스장", "1개월", "3개월", "6개월"],
+            ["헬스C", "55,000원", "150,000원", "290,000원"]
+        ]
+    },
+    gungdong: {
+        img: "gungdong.png",
+        prices: [
+            ["헬스장", "1개월", "3개월", "6개월"],
+            ["헬스D", "48,000원", "140,000원", "270,000원"],
+            ["헬스E", "52,000원", "150,000원", "300,000원"]
+        ]
+    }
+};
+
+function showDetail(area) {
+    const detailDiv = document.getElementById("map-detail");
+    const img = document.getElementById("detail-img");
+    const table = document.getElementById("price-table");
+
+    img.src = mapData[area].img;
+    table.innerHTML = "";
+    mapData[area].prices.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        row.forEach(cell => {
+            const td = document.createElement(idx===0?"th":"td");
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+    detailDiv.style.display = "block";
+    detailDiv.scrollIntoView({behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
